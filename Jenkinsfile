@@ -3,10 +3,11 @@ pipeline {
 
     environment {
         REPO_URL = 'https://github.com/shanky528/SPARTA-DevSecOps-Pipeline.git'
-        VM_IP = '10.0.2.15'                      // Your VM IP from Terraform
-        VM_USER = 'vagrant'                      // VM SSH user
-        SSH_CREDENTIALS_ID = 'ssh-deploy'        // Jenkins credentials ID for SSH private key
-        TERRAFORM_DIR = 'C:\\terraform_vm'       // Your Terraform config folder
+        SONARQUBE_SERVER = 'SonarQubeServer'         // Jenkins SonarQube config name
+        VM_IP = '10.0.2.15'                          // Your VM IP from Terraform
+        VM_USER = 'vagrant'                          // VM SSH user
+        SSH_CREDENTIALS_ID = 'ssh-deploy'            // Jenkins SSH credentials ID
+        TERRAFORM_DIR = 'C:\\terraform_vm'           // Terraform config folder
         ZAP_PATH = 'C:\\Program Files\\OWASP\\ZAP\\zap.bat'  // OWASP ZAP path
     }
 
@@ -20,7 +21,7 @@ pipeline {
         stage('Build & Validate') {
             steps {
                 bat 'echo Building and validating static website...'
-                // Add build/validation commands if needed
+                // Add real build/validation commands here if needed
             }
         }
 
@@ -28,7 +29,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SonarQube-Token', variable: 'SONAR_TOKEN')]) {
                     bat """
-                    sonar-scanner -Dsonar.projectKey=static-website -Dsonar.sources=. -Dsonar.login=%SONAR_TOKEN%
+                    "C:\\sonar-scanner\\bin\\sonar-scanner.bat" -Dsonar.projectKey=static-website -Dsonar.sources=. -Dsonar.login=%SONAR_TOKEN%
                     """
                 }
             }
