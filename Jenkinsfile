@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/yourusername/static-website.git'
+        REPO_URL = 'https://github.com/shanky528/SPARTA-DevSecOps-Pipeline.git'
         SONARQUBE_SERVER = 'SonarQubeServer'         // Jenkins SonarQube config name
-        VM_IP = '192.168.56.10'                      // Your VM IP from Terraform
+        VM_IP = '10.0.2.15'                      // Your VM IP from Terraform
         VM_USER = 'vagrant'                          // VM SSH user
-        SSH_CREDENTIALS_ID = 'ssh-deploy-key'        // Jenkins credentials ID for SSH private key
+        SSH_CREDENTIALS_ID = 'ssh-deploy'        // Jenkins credentials ID for SSH private key
         SONAR_SCANNER = 'C:\\sonar-scanner\\bin\\sonar-scanner.bat'  // Adjust path
         TERRAFORM_DIR = 'C:\\terraform_vm'           // Your Terraform config folder
         ZAP_PATH = 'C:\\Program Files\\OWASP\\ZAP\\zap.bat' // OWASP ZAP path
