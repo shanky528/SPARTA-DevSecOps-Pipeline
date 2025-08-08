@@ -51,7 +51,7 @@ pipeline {
             steps {
                 bat """
                 ssh -o StrictHostKeyChecking=no ${env.VM_USER}@${env.VM_IP} "mkdir -p /var/www/html"
-                scp -r * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
+                scp -P 2222 -r * ${env.VM_USER}@127.0.0.1:/var/www/html/
                 """
             }
         }
