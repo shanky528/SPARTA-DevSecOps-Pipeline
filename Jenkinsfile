@@ -14,7 +14,6 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Use ssh credentials if repo is private
                 git url: env.REPO_URL, branch: 'main'
             }
         }
@@ -22,7 +21,6 @@ pipeline {
         stage('Build & Validate') {
             steps {
                 bat 'echo Building and validating static website...'
-                // Add your build commands here if needed
             }
         }
 
@@ -50,12 +48,11 @@ pipeline {
         }
 
         stage('Deploy to VM') {
-                steps {
-        bat """
-        ssh -o StrictHostKeyChecking=no ${env.VM_USER}@${env.VM_IP} "mkdir -p /var/www/html"
-        scp -r * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
-        """
-                }
+            steps {
+                bat """
+                ssh -o StrictHostKeyChecking=no ${env.VM_USER}@${env.VM_IP} "mkdir -p /var/www/html"
+                scp -r * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
+                """
             }
         }
 
@@ -78,4 +75,5 @@ pipeline {
             cleanWs()
         }
     }
+}
 
