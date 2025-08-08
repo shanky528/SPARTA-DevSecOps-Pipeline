@@ -26,7 +26,7 @@ pipeline {
 
         stage('SAST - SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                withCredentials([string(credentialsId: 'SonarQube-Token', variable: 'SONAR_TOKEN')]) {
                     bat """
                     sonar-scanner -Dsonar.projectKey=static-website -Dsonar.sources=. -Dsonar.login=%SONAR_TOKEN%
                     """
