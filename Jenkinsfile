@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REPO_URL = 'https://github.com/shanky528/SPARTA-DevSecOps-Pipeline.git'
-        SONARQUBE_SERVER_URL = 'http://loalhost:9000'    // Change to your SonarQube server URL/IP and port
+        SONARQUBE_SERVER_URL = 'http://localhost:9000'    // Change to your SonarQube server URL/IP and port
         VM_IP = '10.0.2.15'
         VM_USER = 'vagrant'
         SSH_CREDENTIALS_ID = 'ssh-deploy'
