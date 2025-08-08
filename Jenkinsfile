@@ -50,19 +50,11 @@ pipeline {
         }
 
         stage('Deploy to VM') {
-            steps {
-                // Use sshagent for SSH private key forwarding
-                sshagent([env.SSH_CREDENTIALS_ID]) {
-                    // Use scp from Git Bash (OpenSSH) or pscp from PuTTY
-                    // Here is an example using scp assuming OpenSSH is installed and in PATH:
-                    bat """
-                    scp -r * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
-                    """
-                    
-                    // If you prefer pscp (from PuTTY), uncomment below and ensure PuTTY tools are in PATH:
-                    // bat """
-                    // pscp -r -i %USERPROFILE%\\.ssh\\id_rsa * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
-                    // """
+                steps {
+        bat """
+        ssh -o StrictHostKeyChecking=no ${env.VM_USER}@${env.VM_IP} "mkdir -p /var/www/html"
+        scp -r * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
+        """
                 }
             }
         }
