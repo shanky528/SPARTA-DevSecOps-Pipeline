@@ -61,7 +61,7 @@ pipeline {
         stage('DAST - OWASP ZAP Scan') {
             steps {
                 bat """
-                java -Xmx512m -jar "C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap-2.16.1.jar" -cmd -quickurl http://${env.VM_IP} -quickout zap-report.html
+                java -Xmx512m -jar "C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap-2.16.1.jar" -cmd -quickurl http://${env.VM_IP} -quickout C:\\Windows\\Temp\\zap-report.html
                 copy C:\\Windows\\Temp\\zap-report.html %WORKSPACE%\\zap-report.html
                 """
                 archiveArtifacts artifacts: 'zap-report.html', fingerprint: true
