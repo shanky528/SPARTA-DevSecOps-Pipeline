@@ -3,13 +3,11 @@ pipeline {
 
     environment {
         REPO_URL = 'https://github.com/shanky528/SPARTA-DevSecOps-Pipeline.git'
-        SONARQUBE_SERVER = 'SonarQubeServer'         // Jenkins SonarQube config name
-        VM_IP = '10.0.2.15'                          // Your VM IP from Terraform
-        VM_USER = 'vagrant'                          // VM SSH user
-        SSH_CREDENTIALS_ID = 'ssh-deploy'            // Jenkins credentials ID for SSH private key
-        SONAR_SCANNER = 'C:\\sonar-scanner\\bin\\sonar-scanner.bat'  // Adjust path if needed
-        TERRAFORM_DIR = 'C:\\terraform_vm'           // Your Terraform config folder
-        ZAP_PATH = 'C:\\Program Files\\OWASP\\ZAP\\zap.bat' // OWASP ZAP path
+        VM_IP = '10.0.2.15'                      // Your VM IP from Terraform
+        VM_USER = 'vagrant'                      // VM SSH user
+        SSH_CREDENTIALS_ID = 'ssh-deploy'        // Jenkins credentials ID for SSH private key
+        TERRAFORM_DIR = 'C:\\terraform_vm'       // Your Terraform config folder
+        ZAP_PATH = 'C:\\Program Files\\OWASP\\ZAP\\zap.bat'  // OWASP ZAP path
     }
 
     stages {
@@ -22,14 +20,16 @@ pipeline {
         stage('Build & Validate') {
             steps {
                 bat 'echo Building and validating static website...'
-                // Add build or validation commands here if needed
+                // Add build/validation commands if needed
             }
         }
 
         stage('SAST - SonarQube Analysis') {
             steps {
-                withSonarQubeEnv(env.SONARQUBE_SERVER) {
-                    bat "\"${env.SONAR_SCANNER}\" -Dsonar.projectKey=static-website -Dsonar.sources=."
+                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                    bat """
+                    sonar-scanner -Dsonar.projectKey=static-website -Dsonar.sources=. -Dsonar.login=%SONAR_TOKEN%
+                    """
                 }
             }
         }
@@ -73,5 +73,3 @@ pipeline {
         }
     }
 }
-
-
