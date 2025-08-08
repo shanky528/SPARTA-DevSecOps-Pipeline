@@ -8,7 +8,8 @@ pipeline {
         VM_USER = 'vagrant'
         SSH_CREDENTIALS_ID = 'vagrant'                     // Jenkins credential ID for SSH private key
         TERRAFORM_DIR = 'C:\\Terraform'
-        ZAP_PATH = 'C:\Program Files\ZAP\Zed Attack Proxy\zap.bat'
+        ZAP_PATH = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap.bat'
+
     }
 
     stages {
