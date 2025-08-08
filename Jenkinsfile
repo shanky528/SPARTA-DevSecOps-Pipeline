@@ -6,7 +6,7 @@ pipeline {
         SONARQUBE_SERVER_URL = 'http://localhost:9000'    // Change to your SonarQube server URL/IP and port
         VM_IP = '10.0.2.15'
         VM_USER = 'vagrant'
-        SSH_CREDENTIALS_ID = 'vagrant'
+        SSH_CREDENTIALS_ID = 'vagrant'                     // Jenkins credential ID for SSH private key
         TERRAFORM_DIR = 'C:\\Terraform'
         ZAP_PATH = 'C:\\Program Files\\OWASP\\ZAP\\zap.bat'
     }
@@ -14,6 +14,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
+                // Use ssh credentials if repo is private
                 git url: env.REPO_URL, branch: 'main'
             }
         }
@@ -21,7 +22,7 @@ pipeline {
         stage('Build & Validate') {
             steps {
                 bat 'echo Building and validating static website...'
-                // Add build commands here if needed
+                // Add your build commands here if needed
             }
         }
 
@@ -50,10 +51,18 @@ pipeline {
 
         stage('Deploy to VM') {
             steps {
+                // Use sshagent for SSH private key forwarding
                 sshagent([env.SSH_CREDENTIALS_ID]) {
+                    // Use scp from Git Bash (OpenSSH) or pscp from PuTTY
+                    // Here is an example using scp assuming OpenSSH is installed and in PATH:
                     bat """
-                    pscp -r -i %USERPROFILE%\\.ssh\\id_rsa * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
+                    scp -r * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
                     """
+                    
+                    // If you prefer pscp (from PuTTY), uncomment below and ensure PuTTY tools are in PATH:
+                    // bat """
+                    // pscp -r -i %USERPROFILE%\\.ssh\\id_rsa * ${env.VM_USER}@${env.VM_IP}:/var/www/html/
+                    // """
                 }
             }
         }
@@ -61,7 +70,7 @@ pipeline {
         stage('DAST - OWASP ZAP Scan') {
             steps {
                 bat "\"${env.ZAP_PATH}\" -cmd -quickurl http://${env.VM_IP} -quickout zap-report.html"
-                archiveArtifacts 'zap-report.html'
+                archiveArtifacts artifacts: 'zap-report.html', fingerprint: true
             }
         }
     }
