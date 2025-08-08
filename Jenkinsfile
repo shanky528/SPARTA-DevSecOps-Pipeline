@@ -7,7 +7,7 @@ pipeline {
         VM_IP = '10.0.2.15'
         VM_USER = 'vagrant'
         SSH_CREDENTIALS_ID = 'ssh-deploy'
-        TERRAFORM_DIR = 'C:\\terraform_vm'
+        TERRAFORM_DIR = 'C:\\terraform'
         ZAP_PATH = 'C:\\Program Files\\OWASP\\ZAP\\zap.bat'
     }
 
