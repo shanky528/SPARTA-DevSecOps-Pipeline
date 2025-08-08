@@ -6,7 +6,7 @@ pipeline {
         SONARQUBE_SERVER_URL = 'http://localhost:9000'    // Change to your SonarQube server URL/IP and port
         VM_IP = '10.0.2.15'
         VM_USER = 'vagrant'
-        SSH_CREDENTIALS_ID = 'ssh-deploy'
+        SSH_CREDENTIALS_ID = 'vagrant'
         TERRAFORM_DIR = 'C:\\Terraform'
         ZAP_PATH = 'C:\\Program Files\\OWASP\\ZAP\\zap.bat'
     }
