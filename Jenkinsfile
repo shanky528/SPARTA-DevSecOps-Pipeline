@@ -50,8 +50,9 @@ pipeline {
         stage('Deploy to VM') {
             steps {
                 bat """
-                ssh -o StrictHostKeyChecking=no ${env.VM_USER}@${env.VM_IP} "mkdir -p /var/www/html"
-                scp -P 2222 -r * ${env.VM_USER}@127.0.0.1:/var/www/html/
+                ssh -o StrictHostKeyChecking=no -p 2222 ${env.VM_USER}@127.0.0.1 "mkdir -p /home/vagrant/www_tmp"
+                scp -P 2222 -r * ${env.VM_USER}@127.0.0.1:/home/vagrant/www_tmp/
+                ssh -o StrictHostKeyChecking=no -p 2222 ${env.VM_USER}@127.0.0.1 "sudo cp -r /home/vagrant/www_tmp/* /var/www/html/ && sudo chown -R www-data:www-data /var/www/html/"
                 """
             }
         }
