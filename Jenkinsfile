@@ -9,6 +9,7 @@ pipeline {
         SSH_CREDENTIALS_ID = 'vagrant'                     // Jenkins credential ID for SSH private key
         TERRAFORM_DIR = 'C:\\Terraform'
         ZAP_PATH = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap.bat'
+        VM_KEY_PATH = 'C:\\Users\shanm\OneDrive\Desktop\Lambton\Term 3\Saikat\DevSecops\SPARTA-DevSecOps-Pipeline\.vagrant\machines\default\virtualbox\private_key'
 
     }
 
@@ -50,11 +51,11 @@ pipeline {
 
         stage('Deploy to VM') {
             steps {
-                bat """
-                ssh -o StrictHostKeyChecking=no -p 2222 ${env.VM_USER}@127.0.0.1 "mkdir -p /home/vagrant/www_tmp"
-                scp -P 2222 -r * ${env.VM_USER}@127.0.0.1:/home/vagrant/www_tmp/
-                ssh -o StrictHostKeyChecking=no -p 2222 ${env.VM_USER}@127.0.0.1 "sudo cp -r /home/vagrant/www_tmp/* /var/www/html/ && sudo chown -R www-data:www-data /var/www/html/"
-                """
+               bat """
+               ssh -i "${env.VM_KEY_PATH}" -o StrictHostKeyChecking=no -p 2222 ${env.VM_USER}@127.0.0.1 "mkdir -p /home/vagrant/www_tmp"
+               scp -i "${env.VM_KEY_PATH}" -P 2222 -r * ${env.VM_USER}@127.0.0.1:/home/vagrant/www_tmp/
+               ssh -i "${env.VM_KEY_PATH}" -o StrictHostKeyChecking=no -p 2222 ${env.VM_USER}@127.0.0.1 "sudo cp -r /home/vagrant/www_tmp/* /var/www/html/ && sudo chown -R www-data:www-data /var/www/html/"
+        """
             }
         }
 
