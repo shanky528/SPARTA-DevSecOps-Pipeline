@@ -9,7 +9,8 @@ pipeline {
         SSH_CREDENTIALS_ID = 'vagrant'                     // Jenkins credential ID for SSH private key
         TERRAFORM_DIR = 'C:\\Terraform'
         ZAP_PATH = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap.bat'
-        VM_KEY_PATH = 'C:\\Users\shanm\OneDrive\Desktop\Lambton\Term 3\Saikat\DevSecops\SPARTA-DevSecOps-Pipeline\.vagrant\machines\default\virtualbox\private_key'
+        VM_KEY_PATH = 'C:\\Users\\shanm\\OneDrive\\Desktop\\Lambton\\Term 3\\Saikat\\DevSecops\\SPARTA-DevSecOps-Pipeline\\.vagrant\\machines\\default\\virtualbox\\private_key'
+
 
     }
 
